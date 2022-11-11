@@ -1,50 +1,24 @@
 import React from 'react';
-import { Typography, AppBar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
-import VideoPlayer from './components/VideoPlayer';
-import Sidebar from './components/Sidebar';
-import Notifications from './components/Notifications';
+import Model from './components/Model';
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    borderRadius: 15,
-    margin: '30px 100px',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '600px',
-    border: '2px solid black',
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Video from './Video';
+import Home from './Home';
+import Error from './components/Error';
 
-    [theme.breakpoints.down('xs')]: {
-      width: '90%',
-    },
-  },
-  image: {
-    marginLeft: '15px',
-  },
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-  },
-}));
 
 const App = () => {
-  const classes = useStyles();
 
   return (
-    <div className={classes.wrapper}>
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography variant="h2" align="center">Video Chat</Typography>
-      </AppBar>
-      <VideoPlayer />
-      <Sidebar>
-        <Notifications />
-      </Sidebar>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/video" element={<Video />} />
+        <Route exact path="/predict" element={<Model />} />
+        <Route exact path="*" element={<Error />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

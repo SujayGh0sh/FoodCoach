@@ -1,6 +1,7 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+import { useLocation, useParams } from 'react-router-dom';
 
 const SocketContext = createContext();
 
@@ -19,7 +20,15 @@ const ContextProvider = ({ children }) => {
   const userVideo = useRef();
   const connectionRef = useRef();
 
+  const location = useLocation();
+
   useEffect(() => {
+    console.log(location)
+
+    // if (id !== '/') {
+    // }
+    // return;
+
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
