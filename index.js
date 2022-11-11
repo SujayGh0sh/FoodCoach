@@ -1,21 +1,36 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
+
 const server = require("http").createServer(app);
+
 const cors = require("cors");
+app.use(express.json());
+const mongoose = require('mongoose');
+const authRoute = require("./routes/Auth")
+const tokenRoute = require("./routes/Token")
 
 const io = require("socket.io")(server, {
 	cors: {
 		origin: "*",
-		methods: [ "GET", "POST" ]
+		methods: ["GET", "POST"]
 	}
 });
 
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
+const DB = process.env.MONGO_URL || 'mongodb://localhost/IWP-VIDEO';
+mongoose
+	.connect(DB)
+	.then(() => console.log("connection successfull"))
+	.catch((err) => console.log(err));
 
 app.get('/', (req, res) => {
 	res.send('Running');
 });
+
+app.use("/api/auth", authRoute);
+app.use("/api/token", tokenRoute);
 
 io.on("connection", (socket) => {
 	socket.emit("me", socket.id);
