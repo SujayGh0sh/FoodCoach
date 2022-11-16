@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import VideoPlayer from '../components/VideoPlayer';
 import Sidebar from '../components/Sidebar';
 import Notifications from '../components/Notifications';
-import { ContextProvider } from '../Context';
-import { useEffect, useState } from 'react';
+import { SocketContext } from '../Context';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -38,8 +38,7 @@ function Video() {
 
     const [users, setUsers] = useState([])
 
-    const [call, setcall] = useState("")
-
+    const { callUser } = useContext(SocketContext);
     useEffect(() => {
         const fetchUsers = async () => {
 
@@ -54,11 +53,11 @@ function Video() {
         fetchUsers()
     }, [])
 
-    const callUser = async (id) => {
+    const callUserFunc = async (id) => {
         // fetch users current tokenId
         try {
             const res = await axios.get('http://localhost:5000/api/token/' + id);
-            setcall(res.data.tokenId);
+            callUser(res.data.tokenId);
             console.log(res.data.tokenId)
         } catch (error) {
             console.log(error);
@@ -71,23 +70,22 @@ function Video() {
 
     const classes = useStyles();
     return (
-        <ContextProvider>
-            <div className={classes.wrapper}>
-                <AppBar className={classes.appBar} position="static" color="inherit">
-                    <Typography variant="h2" align="center">Video Chat</Typography>
-                </AppBar>
-                <VideoPlayer />
-                <Sidebar>
-                    <Notifications />
-                </Sidebar>
-                <div>
-                    {users.map((val, ind) => {
+        <div className={classes.wrapper}>
+            <AppBar className={classes.appBar} position="static" color="inherit">
+                <Typography variant="h2" align="center">Video Chat</Typography>
+            </AppBar>
+            <VideoPlayer />
+            <Sidebar>
+                <Notifications />
+            </Sidebar>
+            <div>
+                {users.map((val, ind) => {
 
-                        return <button onClick={() => callUser(val._id)}>{val.username}</button>
-                    }
-                    )}
-                </div>
+                    return <button key={ind} onClick={() => callUserFunc(val._id)}>{val.username}</button>
+                }
+                )}
             </div>
-        </ContextProvider>)
+        </div>
+    )
 }
 export default Video;

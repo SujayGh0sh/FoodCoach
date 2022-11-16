@@ -1,13 +1,21 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useEffect } from 'react'
 import "./Register.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ContextProvider } from '../Context';
+import { SocketContext } from '../Context';
 
 export default function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
-    // const { name } = useContext(SocketContext);
+    const { rootUser, setRootUser } = useContext(SocketContext)
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (rootUser)
+            navigate("/")
+
+    }, [navigate, rootUser])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,6 +27,14 @@ export default function Login() {
                 password: passwordRef.current.value,
             });
             console.log(res);
+            const data = res.data
+            setRootUser({
+                username: data.username,
+                email: data.email,
+                password: data.password,
+                _id: data._id
+            })
+
         } catch (err) {
             alert('Error while Login');
         }

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const SocketContext = createContext();
@@ -21,21 +21,51 @@ const ContextProvider = ({ children }) => {
   const userVideo = useRef();
   const connectionRef = useRef();
 
-  const location = useLocation();
+
+  //signup/login database
+  const INITIAL_STATE = JSON.parse(localStorage.getItem("user")) || null
+  const [rootUser, setRootUser] = useState(null)  //root user will contain the id
 
   useEffect(() => {
-    console.log(location)
+    localStorage.setItem("user", JSON.stringify(rootUser));
+  }, [rootUser]);
 
-    // if (id !== '/') {
-    // }
-    // return;
+  //update tokenId
+  useEffect(() => {
 
+    // only update if you have id and tokenId fields
+
+    // let Id = localStorage.getItem("id") ? JSON.parse(localStorage.getItem("id")) : null;
+
+    const saveTokenId = async () => {
+      if (rootUser) {
+        try {
+          const res = await axios.put('http://localhost:5000/api/token/', {
+            _id: rootUser._id,
+            tokenId: me
+          })
+          console.log(res);
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    saveTokenId()
+  }, [me, rootUser])
+
+
+
+
+
+
+  useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
 
-        myVideo.current.srcObject = currentStream;
-        console.log(currentStream)
+        if (myVideo.current)
+          myVideo.current.srcObject = currentStream;
+        console.log("current streams:", currentStream)
       });
 
     socket.on('me', (id) => setMe(id));
@@ -43,7 +73,7 @@ const ContextProvider = ({ children }) => {
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, []);
+  }, [rootUser]);
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -94,34 +124,6 @@ const ContextProvider = ({ children }) => {
   //database queries
   //add signup and login methods here and use them in the login and sigup page.
 
-  //signup/login database
-
-  const [userId, setUserId] = useState('')
-  //update tokenId
-  useEffect(() => {
-
-    // only update if you have id and tokenId fields
-    console.log(!!localStorage.getItem("id"))
-    // let Id = localStorage.getItem("id") ? JSON.parse(localStorage.getItem("id")) : null;
-    if (0) {
-      setUserId(userId)
-      try {
-        axios.put('http://localhost:5000/api/token/', {
-          // _id: Id,
-          tokenId: me
-        })
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-  }, [me, userId])
-
-
-  useEffect(() => {
-    localStorage.setItem("id", JSON.stringify());
-  }, [userId]);
 
   return (
     <SocketContext.Provider value={{
@@ -137,6 +139,8 @@ const ContextProvider = ({ children }) => {
       callUser,
       leaveCall,
       answerCall,
+      rootUser,
+      setRootUser
     }}
     >
       {children}

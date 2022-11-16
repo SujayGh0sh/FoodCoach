@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Model from './pages/Model';
 
@@ -8,19 +8,19 @@ import Home from './pages/Home';
 import Error from './pages/Error';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import { ContextProvider } from './Context';
-
+import { SocketContext } from './Context';
 
 const App = () => {
 
+  const { rootUser } = useContext(SocketContext)
   return (
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/video" element={<Video />} />
+        <Route exact path="/video" element={rootUser ? <Video /> : <Login />} />
         <Route exact path="/predict" element={<Model />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/login" element={<ContextProvider><Login /></ContextProvider>} />
+        <Route exact path="/login" element={<Login />} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
