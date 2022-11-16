@@ -1,2 +1,5 @@
 node_modules/
 build/
+ML flask/data/
+Fruit_Retrained_model.ipynb
+kaggle model.ipynb

@@ -1,11 +1,14 @@
 import React from 'react';
 
-import Model from './components/Model';
+import Model from './pages/Model';
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import Video from './Video';
-import Home from './Home';
-import Error from './components/Error';
+import Video from './pages/Video';
+import Home from './pages/Home';
+import Error from './pages/Error';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import { ContextProvider } from './Context';
 
 
 const App = () => {
@@ -16,6 +19,8 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/video" element={<Video />} />
         <Route exact path="/predict" element={<Model />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/login" element={<ContextProvider><Login /></ContextProvider>} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

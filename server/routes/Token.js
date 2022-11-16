@@ -1,6 +1,24 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 
+//Get the current token
+
+router.get("/:uname", async (req, res) => {
+
+    try {
+
+        const user = await User.findOne({ _id: req.params.uname });
+        !user && res.status(400).json("Wrong credentials!");
+
+        console.log(user.tokenId)
+        res.status(200).json({ tokenId: user.tokenId });
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+
+})
 //LOGIN
 router.put("/", async (req, res) => {
 
@@ -18,7 +36,7 @@ router.put("/", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+})
 
 
 
