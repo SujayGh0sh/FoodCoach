@@ -1,4 +1,4 @@
-import { Typography, AppBar } from '@material-ui/core';
+// import { Typography, AppBar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import VideoPlayer from '../components/VideoPlayer';
@@ -7,6 +7,10 @@ import Notifications from '../components/Notifications';
 import { SocketContext } from '../Context';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+
+import './Register.css'
+import Navbar from '../components/Navbar';
+
 const useStyles = makeStyles((theme) => ({
     appBar: {
         borderRadius: 15,
@@ -16,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         width: '600px',
-        border: '2px solid black',
+        // border: '2px solid black',
 
         [theme.breakpoints.down('xs')]: {
             width: '90%',
@@ -30,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
+        paddingTop: '50px',
     },
 }));
 
@@ -70,20 +75,24 @@ function Video() {
 
     const classes = useStyles();
     return (
-        <div className={classes.wrapper}>
-            <AppBar className={classes.appBar} position="static" color="inherit">
+        <div>
+            <Navbar />
+            <div className={classes.wrapper}>
+                {/* <AppBar className={classes.appBar} position="static" color="inherit">
                 <Typography variant="h2" align="center">Video Chat</Typography>
-            </AppBar>
-            <VideoPlayer />
-            <Sidebar>
-                <Notifications />
-            </Sidebar>
-            <div>
-                {users.map((val, ind) => {
+            </AppBar> */}
+                <VideoPlayer />
+                <Sidebar>
+                    <Notifications />
+                </Sidebar>
+                <div className='callusers'>
+                    <h2>Users</h2>
+                    {users.map((val, ind) => {
 
-                    return <button key={ind} onClick={() => callUserFunc(val._id)}>{val.username}</button>
-                }
-                )}
+                        return <button key={ind} className="call_btn" onClick={() => callUserFunc(val._id)}>{val.username}</button>
+                    }
+                    )}
+                </div>
             </div>
         </div>
     )

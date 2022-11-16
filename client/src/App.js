@@ -9,6 +9,7 @@ import Error from './pages/Error';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import { SocketContext } from './Context';
+import Story from './pages/Story';
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path="/predict" element={<Model />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/story" element={<Story />} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

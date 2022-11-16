@@ -23,7 +23,7 @@ const ContextProvider = ({ children }) => {
 
 
   //signup/login database
-  const INITIAL_STATE = JSON.parse(localStorage.getItem("user")) || null
+  // const INITIAL_STATE = JSON.parse(localStorage.getItem("user")) || null
   const [rootUser, setRootUser] = useState(null)  //root user will contain the id
 
   useEffect(() => {
