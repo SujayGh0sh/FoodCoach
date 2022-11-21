@@ -1,11 +1,15 @@
-# Realtime Chat Application
+# Food Spot
 
-![Video Chat](https://i.ibb.co/7WZRLD1/122.jpg)
+- Video Calling Feature using Socket.io
+- CNN Model for fresh/rotton food classification
+- Register/Login
 
-## Introduction
-This is a code repository for the corresponding video tutorial. 
+## Tech stack
 
-In this tutorial, we're going to build and deploy a React Video Chat Application using WebRTC.
+ReactJs, Mongodb, Expressjs, NodeJS, Flask
 
-Setup:
-- run ```npm i && npm start``` for both client and server side to start the development server
+## Setup
+
+- cd client: `npm install` & `npm start`: http://localhost:3000
+- cd server: `npm install` & `npm start`: http://localhost:5000
+- cd ML flask: run app.js

@@ -30,6 +30,12 @@ function Navbar() {
                                     home
                                 </Link>
                             </li>
+                            <li className="nav-item">
+
+                                <Link className="nav-link active" aria-current="page" to="/story" style={{ color: 'white' }}>
+                                    Our Story
+                                </Link>
+                            </li>
 
                             <li className="nav-item">
                                 <Link className="nav-link" to="/video" style={{ color: 'white' }}>
@@ -39,12 +45,6 @@ function Navbar() {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/predict" style={{ color: 'white' }}>
                                     predict
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-
-                                <Link className="nav-link active" aria-current="page" to="/story" style={{ color: 'white' }}>
-                                    Our Story
                                 </Link>
                             </li>
                             <li className="nav-item">
